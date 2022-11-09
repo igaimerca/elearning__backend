@@ -1,0 +1,274 @@
+Project GradeArcERD {
+    database_type: 'MySQL'
+}
+
+// USERS
+Table users.users {
+    uuid int [pk, unique, not null]
+    firstName varchar [not null]
+    lastName varchar [not null]
+    email varchar [null, unique]
+    phone varchar [null, unique]
+    birthday date [null]
+    pronouns users.pronouns [null]
+    profilePicture varchar [null]
+    bio text [null]
+    interests text [null]
+    tfaSecret varchar [null]
+    confidential boolean [default: false, not null]
+    profileAvailability users.profileAvailability [default: 'private', not null]
+    deleted boolean [default: false, not null]
+    deletedTime date [null]
+    Note: "Stores the user data"
+}
+
+Table users.student {
+    userId int [not null]
+    grade int [not null]
+    schoolId int [not null]
+
+    Note: "Stores the extended data needed for students"
+}
+
+Table users.parent {
+    userId int [not null]
+    addressId int [not null]
+    relationship relationship [not null]
+
+    Note: "Stores the extended data needed for parents"
+}
+
+Table users.teacher {
+    userId int [not null]
+    subject varchar [not null]
+
+    Note: "Stores the extended data needed for teachers"
+}
+
+Table users.settings {
+    userId int [not null]
+    darkMode boolean [default: false, not null]
+    textSize text [not null]
+}
+
+// COURSES
+Table courses.courses {
+    id int [pk, increment]
+    courseCode varchar [not null]
+
+    Note: "Stores the course data"
+}
+
+Table courses.assignments {
+    id int [pk, increment]
+    courseId int [not null]
+    title varchar [not null]
+    description text [not null]
+    due date [not null]
+    points int [not null]
+    grade int [not null]
+    visible bool [default: false, not null]
+    missing bool [default: false, not null]
+
+    Note: "Stores the assignment data"
+}
+
+Table courses.submissions {
+    id int [pk, increment]
+    assignmentId int [not null]
+    studentId int [not null]
+    grade int [not null]
+    comment text [not null]
+
+    Note: "Stores the submission data"
+}
+
+Table courses.tests {
+    id int [pk, increment]
+    courseId int [not null]
+    title varchar [not null]
+    description text [not null]
+    due date [not null]
+    open bool [default: false, not null]
+    limit int [default: 1, not null]
+    allowReviewPreviousTest bool [default: false, not null]
+    gradeId int [not null]
+
+    Note: "Stores the test data"
+}
+
+Table courses.testQuestions {
+    id int [pk, increment]
+    testId int [not null]
+    question text [not null]
+    points int [not null]
+
+    Note: "Stores the test question data"
+}
+
+Table courses.settings {
+    courseId int [not null]
+    banner varchar [not null]
+    joinOpen boolean [default: true, not null]
+    allowVideoCallBackground boolean [default: false, not null]
+}
+
+// CHAT
+Table chat.reports {
+    id int [pk, increment]
+    userId int [not null]
+    messageId int [not null]
+    date date [not null]
+
+    Note: "Stores the report data"
+}
+
+// TODO Messages
+Table chat.messages {
+    id int [pk, increment]
+
+    Note: "Stores the chat message data"
+}
+
+// GROUPS
+Table group.groups {
+    id int [pk, increment]
+    name varchar [not null]
+    description text [not null]
+    banner varchar [not null]
+    adminId int [not null]
+    confidential boolean [default: false, not null]
+
+    Note: "Stores the group data"
+}
+
+Table group.users {
+    groupId int [not null]
+    userId int [not null]
+    moderator boolean [default: false, not null]
+
+    Note: "Stores the user data"
+}
+
+// CALENDARS
+Table calendar.calendars {
+    id int [pk, increment]
+    userId int [not null]
+    name varchar [not null]
+
+    Note: "Stores the calendar data"
+}
+
+Table calendar.events {
+    id int [pk, increment]
+    calendarId int [not null]
+    startDateTime date [not null]
+    endDateTime date [not null]
+    description text [null]
+    recurring calendar.recurringType [null]
+}
+
+// GRADES
+Table grades.grades {
+    id int [pk, increment]
+    userId int [not null]
+    courseId int [not null]
+    assignmentId int [not null]
+    comment varchar(250) [null]
+    percentage int(3) [null]
+
+    Note: "Stores the grade data"
+}
+
+Table grades.categories {
+    id int [pk, increment]
+    gradeId int [not null]
+    percentage int(3) [not null]
+
+    Note: "Stores the category data"
+}
+
+Table audits {
+    id int [pk, increment]
+    userId int [not null]
+    action varchar [not null]
+    ip varchar [not null]
+
+    Note: "Stores the audit data"
+}
+
+Table announcements {
+    id int [pk, increment]
+    type announcements.type [not null]
+    classId int [null]
+    schoolId int [null]
+    districtId int [null]
+
+    Note: "Stores the announcement data"
+}
+
+Table suggestions {
+    id int [pk, increment]
+    title varchar(100) [not null]
+    description text(4000) [not null]
+    read boolean [default: false, not null]
+    starred boolean [default: false, not null]
+
+    Note: "Stores the suggestion data"
+}
+
+Table reports {
+    id int [pk, increment]
+    title varchar(100) [not null]
+    description text(8000) [not null]
+    read boolean [default: false, not null]
+    resolved boolean [default: false, not null]
+    resolution text [not null]
+
+    Note: "Stores the report data"
+}
+
+// Enums
+enum users.pronouns {
+    ey_em
+    he_him
+    per_per
+    she_her
+    they_them
+    ve_ver
+    xe_xem
+    zie_hir
+}
+
+enum users.relationship {
+    father
+    mother
+    grandfather
+    grandmother
+}
+
+enum calendar.recurringType {
+    daily
+    weekly
+    monthly
+}
+
+enum announcements.type {
+    class
+    school
+    district
+    site
+}
+
+enum users.profileAvailability {
+    public
+    mixed
+    private 
+}
+
+TableGroup usersTableGroup {
+    users.users
+    users.student
+    users.parent
+    users.teacher
+}

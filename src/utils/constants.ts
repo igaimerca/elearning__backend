@@ -1,0 +1,4 @@
+export const MAX_MODERATOR_NUMBER = 10;
+export const MAX_MEMBER_NUMBER = 200;
+export const DEFAULT_PAGINATION_ITEM_NUMBER = 25;
+export const MAX_PAGINATION_ITEM_NUMBER = 100;

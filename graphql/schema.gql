@@ -1,0 +1,1493 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Address {
+  id: ID!
+  country: String!
+  state: String!
+  city: String!
+  street: String!
+  number: Float!
+  zipCode: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ParentChild {
+  id: String!
+  parentId: String!
+  childId: String!
+  parent: User!
+  child: User!
+  relationship: String!
+  address: Address!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type StudentToCourse {
+  id: ID!
+  studentId: String!
+  courseId: String!
+  student: User
+  course: Course
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type District {
+  id: ID!
+  name: String!
+  addressId: String!
+  address: Address!
+  about: String
+  banner: String
+  logo: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  schools: [School!]
+  users: [User!]
+}
+
+type School {
+  id: String!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  districtId: String!
+  district: District!
+  users: [User!]
+  announcements: [Announcement!]
+  addressId: String!
+  banner: String
+  address: Address!
+}
+
+type Announcement {
+  id: String!
+  type: String!
+  title: String!
+  description: String!
+  schoolId: String
+  school: School
+  districtId: String
+  district: District
+  courseId: String
+  course: Course
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Course {
+  id: ID!
+  name: String!
+  courseCode: String!
+  picture: String
+  description: String!
+  teacherId: String!
+  schoolId: String!
+  teacher: User
+  students: [StudentToCourse!]!
+  announcements: [Announcement!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type User {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String!
+  password: String!
+  phone: String
+  birthday: DateTime
+  pronouns: String
+  profilePicture: String
+  bio: String
+  interests: String
+  bannerPicture: String
+  tfaEnabled: Boolean
+  tfaSecret: String
+  confidential: Boolean!
+  profileAvailability: String!
+  role: String!
+  teacherCourses: [Course!]!
+  studentCourses: [StudentToCourse!]!
+  schoolId: String
+  districtId: String
+  children: [ParentChild!]!
+  parents: [ParentChild!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type UserResponse {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String!
+  phone: String
+  birthday: DateTime
+  pronouns: String
+  profilePicture: String
+  bio: String
+  interests: String
+  tfaEnabled: Boolean
+  confidential: Boolean!
+  profileAvailability: String!
+  role: String!
+  courses: [Course!]
+  schoolId: String
+  districtId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type LoginResponse {
+  user: UserResponse!
+  accessToken: String!
+  refreshToken: String!
+}
+
+type LogoutResponse {
+  message: String!
+}
+
+type SubmissionAttachment {
+  id: String!
+  submissionId: String!
+  submission: Submission!
+  linkToAttachment: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Submission {
+  id: String!
+  assignmentId: String!
+  assignment: Assignment!
+  note: String!
+  comment: String!
+  grade: Float
+  submitterId: String!
+  submitter: User!
+  submissionAttachments: [SubmissionAttachment!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Assignment {
+  id: String!
+  courseId: String!
+  course: Course!
+  title: String!
+  description: String!
+  due: DateTime!
+  submissions: [Submission!]!
+  marks: Float!
+  visible: Boolean!
+}
+
+type Attendance {
+  id: String!
+  courseId: String!
+  course: Course!
+  userId: String!
+  user: User!
+  status: String!
+  day: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type CalendarEvent {
+  id: String!
+  userId: String!
+  title: String!
+  description: String
+  startDate: DateTime!
+  endDate: DateTime!
+  recurring: String
+  recurringDate: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Suggestion {
+  id: String!
+  title: String!
+  description: String!
+  read: Boolean!
+  starred: Boolean!
+  submitter: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  resolution: String!
+  submitterId: String!
+}
+
+type BugReport {
+  id: String!
+  title: String!
+  summary: String!
+  issue: String!
+  reproduce: String!
+  consequence: String!
+  user: User!
+  phone: String!
+  email: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ReportAdminReads {
+  status: String!
+}
+
+type Report {
+  id: String!
+  title: String!
+  description: String!
+  read: Boolean!
+  resolved: Boolean!
+  resolution: String!
+  reporterId: String!
+  reporter: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  reportAdminReads: ReportAdminReads
+}
+
+type PageInfo {
+  total: Float!
+  skip: Float!
+  limit: Float!
+}
+
+type SchoolStatistics {
+  id: String!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  districtId: String!
+  district: District!
+  users: [User!]
+  announcements: [Announcement!]
+  addressId: String!
+  banner: String
+  address: Address!
+  studentCount: Float!
+  teacherCount: Float!
+  parentCount: Float!
+}
+
+type SchoolsStatistics {
+  data: [SchoolStatistics!]!
+  pageInfo: PageInfo!
+}
+
+type DistrictStatistics {
+  id: ID!
+  name: String!
+  addressId: String!
+  address: Address!
+  about: String
+  banner: String
+  logo: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  schools: [School!]
+  users: [User!]
+  PDACount: Float!
+  DACount: Float!
+  SACount: Float!
+  schoolCount: Float!
+  teacherCount: Float!
+  studentCount: Float!
+  parentCount: Float!
+}
+
+type DistrictsStatistics {
+  data: [DistrictStatistics!]!
+  pageInfo: PageInfo!
+}
+
+type TestQuestion {
+  id: String!
+  question: String!
+  testId: String!
+  test: Test!
+  points: Float!
+}
+
+type Test {
+  id: String!
+  title: String!
+  courseId: String!
+  course: Course!
+  gradeId: String!
+  description: String!
+  due: DateTime!
+  open: Boolean!
+  allowReviewPreviousTest: Boolean!
+  limit: Float!
+  TestQuestions: [TestQuestion!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Announcements {
+  data: [Announcement!]!
+  pageInfo: PageInfo!
+}
+
+type Assignments {
+  data: [Assignment!]!
+  pageInfo: PageInfo!
+}
+
+type AssignmentCompletion {
+  Completed: Float!
+  Incomplete: Float!
+}
+
+type MonthlyAssignments {
+  month: Float!
+  assignments: Float!
+}
+
+type AuditLog {
+  id: String!
+  userId: String!
+  action: String!
+  details: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type BugReports {
+  data: [BugReport!]!
+  pageInfo: PageInfo!
+}
+
+type CalendarEvents {
+  data: [CalendarEvent!]!
+  pageInfo: PageInfo!
+}
+
+type Courses {
+  data: [Course!]!
+  pageInfo: PageInfo!
+}
+
+type AverageCourseGrades {
+  course: String!
+  percentage: Float!
+}
+
+type Districts {
+  data: [District!]!
+  pageInfo: PageInfo!
+}
+
+type DistrictGradeStatistics {
+  month: Float!
+  percentage: Float!
+}
+
+type Error {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type UserToUserMessageGroup {
+  id: String!
+  userId: String!
+  user: User!
+  userMessageGroupId: String!
+  userMessageGroup: UserMessageGroup!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type GroupMessage {
+  id: String!
+  text: String!
+  filePath: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  messageGroupId: String!
+  userId: String!
+  user: User!
+}
+
+type UserMessageGroup {
+  id: String!
+  name: String!
+  filePath: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  users: [UserToUserMessageGroup!]!
+  messages: [GroupMessage!]!
+}
+
+type GroupUser {
+  id: String!
+  userId: String!
+  user: User!
+  groupId: String!
+  group: Group!
+  moderator: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Group {
+  id: String!
+  name: String!
+  description: String!
+  photo: String!
+  adminId: String!
+  admin: User!
+  members: [GroupUser!]
+  confidential: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type KnowledgeBase {
+  id: String!
+  userId: String!
+  user: User!
+  type: String!
+  isPublic: Boolean!
+  title: String
+  videoUrl: String
+  articlePath: String
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type KnowledgeBases {
+  data: [KnowledgeBase!]!
+  pageInfo: PageInfo!
+}
+
+type LiveChat {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Message {
+  id: String!
+  text: String!
+  filePath: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  toId: String!
+  fromId: String!
+  to: User!
+  from: User!
+}
+
+type QuickInfo {
+  id: String!
+  title: String!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  userId: String!
+  user: User!
+}
+
+type QuickInfos {
+  data: [QuickInfo!]!
+  pageInfo: PageInfo!
+}
+
+type Reports {
+  data: [Report!]!
+  pageInfo: PageInfo!
+}
+
+type Schools {
+  data: [School!]!
+  pageInfo: PageInfo!
+}
+
+type Submissions {
+  data: [Submission!]!
+  pageInfo: PageInfo!
+}
+
+type SubmissionStatistics {
+  day: Float!
+  totalAssignmentSubmissions: Float!
+}
+
+type SubmissionGrades {
+  firstName: String!
+  lastName: String!
+  profilePicture: String!
+  marks: Float!
+  grade: String!
+}
+
+type Suggestions {
+  data: [Suggestion!]!
+  pageInfo: PageInfo!
+}
+
+type Support {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Timetable {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type CreateResponse {
+  status: String!
+  message: String!
+}
+
+type SetupTfaResponse {
+  qrCode: String!
+}
+
+type Users {
+  data: [User!]!
+  pageInfo: PageInfo!
+}
+
+type SearchResult {
+  id: String!
+  title: String
+  description: String
+  filePath: String
+  resultType: String!
+}
+
+type SearchResults {
+  data: [SearchResult!]!
+  pageInfo: PageInfo!
+}
+
+type ClassOverview {
+  courseId: String!
+  courseName: String!
+  coursePicture: String
+  teacherName: String!
+  missingAssignments: String!
+  classStartTime: String!
+  classEndTime: String!
+}
+
+type SharedFile {
+  id: String!
+  sharedWithId: String!
+  sharedWith: User
+  fileId: String!
+  file: File
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type File {
+  id: String!
+  name: String!
+  type: String!
+  size: String!
+  filePath: String!
+  folderId: String
+  folder: Folder
+  userId: String!
+  user: User!
+  sharedFiles: [SharedFile!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type SharedFolder {
+  id: String!
+  sharedWithId: String!
+  sharedWith: User
+  folderId: String!
+  folder: Folder
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Folder {
+  id: String!
+  name: String!
+  color: String
+  parentFolderId: String
+  isHidden: Boolean
+  user: User!
+  sharedFolders: [SharedFolder!]
+  subFolders: [Folder!]
+  files: [File!]
+  userId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Folders {
+  data: [Folder!]!
+  pageInfo: PageInfo!
+}
+
+type MaterialCount {
+  count: Float!
+}
+
+type Files {
+  data: [File!]!
+  pageInfo: PageInfo!
+}
+
+type AttendanceDailyStatistics {
+  day: Float!
+  attendance: Float!
+}
+
+type Attendances {
+  data: [Attendance!]!
+  pageInfo: PageInfo!
+}
+
+type AttendanceStatistics {
+  month: Float!
+  percentage: Float!
+}
+
+type StudentAttendance {
+  id: String!
+  firstName: String!
+  lastName: String!
+  profilePicture: String!
+  averageGrade: Float!
+  missedAssignments: Float!
+  present: Float!
+  tardy: Float!
+  absent: Float!
+}
+
+type TestWithStudents {
+  id: String!
+  title: String!
+  courseId: String!
+  course: Course!
+  gradeId: String!
+  description: String!
+  due: DateTime!
+  open: Boolean!
+  allowReviewPreviousTest: Boolean!
+  limit: Float!
+  TestQuestions: [TestQuestion!]!
+  students: [User!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Tests {
+  data: [Test!]!
+  pageInfo: PageInfo!
+}
+
+type Schedule {
+  id: String!
+  title: String!
+  subtitle: String
+  color: String
+  description: String!
+  day: [String]
+  startingTime: DateTime!
+  endingTime: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type scheduleByDay {
+  day: Float!
+  events: [Schedule!]!
+}
+
+type InterestOrSkill {
+  id: String!
+  userId: String!
+  title: String!
+}
+
+type Notification {
+  id: String!
+  userId: String!
+  notificationId: String!
+  title: String!
+  description: String!
+  NotificationType: String!
+  targetedUser: String!
+  linkToAttachment: String!
+  image: String!
+  announcementId: String!
+}
+
+type Query {
+  setupTfa: SetupTfaResponse!
+  countStudentsInSchool(schoolId: String!): Float!
+  getUsersByRole(role: String!, skip: Float = 0, limit: Float = 25): Users!
+  getStudentsByTeacher(skip: Float = 0, limit: Float = 25): Users!
+  getUserListByDistrictIdAndRole(districtId: String!, role: String!, skip: Float = 0, limit: Float = 25): Users!
+  getUserListForSAByRole(role: String!, skip: Float = 0, limit: Float = 25): Users!
+  search(searchInput: SearchInput!, skip: Float = 0, limit: Float = 25): SearchResults!
+  getUsersCountByRole(role: String!): Float!
+  enableTfa(enableTfaInput: EnableTfaInput!): CreateResponse!
+  getUserById(id: String!): User!
+  verifyTfaToken(verifyTfaInput: EnableTfaInput!): CreateResponse!
+  countTeachersInSchool(schoolId: String!): Float!
+  getTeachersBySchoolId(schoolId: String!, skip: Float = 0, limit: Float = 25): Users!
+  getStudentsBySchoolId(schoolId: String!, skip: Float = 0, limit: Float = 25): Users!
+  getAllUsersByCSA(skip: Float = 0, limit: Float = 25): Users!
+  getAllPublicUsers(skip: Float = 0, limit: Float = 25): Users!
+  getPublicUserById(id: String!): User!
+  getClassOverview(studentId: String!): [ClassOverview!]!
+  districts(skip: Float = 0, limit: Float = 25): Districts!
+  findManyStatistics(skip: Float = 0, limit: Float = 25): DistrictsStatistics!
+  findDistrictStatistics(id: String!): DistrictStatistics!
+  district(id: String!): District!
+  getDistrictGradeStatistics: [DistrictGradeStatistics!]!
+  schools(skip: Float = 0, limit: Float = 25): Schools!
+  findSchoolStatisticsInDistrict(id: String!, skip: Float = 0, limit: Float = 25): SchoolsStatistics!
+  findSchoolsInDistrict(id: String!, skip: Float = 0, limit: Float = 25): Schools!
+  school(id: String!): School!
+  course(id: String!): Course!
+  courses(skip: Float = 0, limit: Float = 25): Courses!
+  getCountCoursesOfSchool(schoolId: String!): Float!
+  getCoursesByTeacher(skip: Float = 0, limit: Float = 25): Courses!
+  averageGradePerCourse(skip: Float = 0, limit: Float = 25): AverageCourseGrades!
+  getStudentCourses(skip: Float = 0, limit: Float = 25): Courses!
+  timetable(id: Int!): Timetable!
+  liveChat(id: Int!): LiveChat!
+  error(id: Int!): Error!
+  getAuditLogs: [AuditLog!]!
+  attendances(skip: Float = 0, limit: Float = 25): Attendances!
+  attendancesbyday(day: DateTime!, skip: Float = 0, limit: Float = 25): Attendances!
+  attendancesbycourse(courseId: String!, skip: Float = 0, limit: Float = 25): Attendances!
+  attendanceStatisticsByDistrict(districtId: String!, status: String = "PRESENT"): [AttendanceStatistics!]!
+  attendanceStatisticsBySchool(schoolId: String!, status: String = "PRESENT"): [AttendanceStatistics!]!
+  attendance(id: String!): Attendance!
+  studentsListWithAverageGradeMissingAssignmentsPresentCountTardyAbsentCount(courseId: String!): [StudentAttendance!]!
+  courseAttendanceDailyStatistics(courseId: String!): [AttendanceDailyStatistics!]!
+  currentUser: User!
+  reports(skip: Float = 0, limit: Float = 25): Reports!
+  report(id: String!): Report!
+  getAnnouncements(skip: Float = 0, limit: Float = 25): Announcements!
+  getAnnouncement(id: String!): Announcement!
+  suggestions(skip: Float = 0, limit: Float = 25): Suggestions!
+  suggestion(id: String!): Suggestion!
+  quickInfos(skip: Float = 0, limit: Float = 25): QuickInfos!
+  quickInfo(id: String!): QuickInfo!
+  calendarevents(skip: Float = 0, limit: Float = 25): CalendarEvents!
+  calendarevent(id: String!): CalendarEvent!
+  message(id: String!): Message!
+
+  """Query returns dms about two people"""
+  getMessagesBetween(userId: String!): [Message!]!
+  assignment(id: String!): Assignment!
+  getParentCompletedAssignment(skip: Float = 0, limit: Float = 25): Assignments!
+  getParentTodoAssignment(skip: Float = 0, limit: Float = 25): Assignments!
+  getParentOverDueAssignment(skip: Float = 0, limit: Float = 25): Assignments!
+  getStudentTodoAssignments(skip: Float = 0, limit: Float = 25): Assignments!
+  getStudentCompletedAssignments(skip: Float = 0, limit: Float = 25): Assignments!
+  getStudentOverDueAssignments(skip: Float = 0, limit: Float = 25): Assignments!
+  attachFolder(attachmentId: String!, folderId: String!): Assignments!
+  assignmentCompletion(courseId: String!): AssignmentCompletion!
+  getTeacherAssignments(skip: Float = 0, limit: Float = 25): Assignments!
+  studentAssignmentCompletion: AssignmentCompletion!
+  studentAssignments(skip: Float = 0, limit: Float = 25): Assignments!
+  MonthlyAssignmentsReport: [MonthlyAssignments!]!
+  getSubmissions(skip: Float = 0, limit: Float = 25): Submissions!
+  getSubmission(id: Int!): Submission!
+  getAssignmentSubmissions(
+    """Assignment id"""
+    id: String!
+    skip: Float = 0
+    limit: Float = 25
+  ): Submissions!
+  weeklyStudentsAssignmentSubmissionStatistics(schoolId: String!): [SubmissionStatistics!]!
+  weeklyStudentsAssignmentSubmissions: [SubmissionStatistics!]!
+  getSubmssionsByCourse(courseId: String!): [SubmissionGrades!]!
+  bugReports(skip: Float = 0, limit: Float = 25): BugReports!
+  bugReport(id: String!): BugReport!
+
+  """Get all groups a user has joined"""
+  findAllGroups: [GroupMessage!]!
+  findOneGroup(id: String!): GroupMessage!
+  knowledgeBases(skip: Float = 0, limit: Float = 25): KnowledgeBases!
+  publishedKnowledgeBases(skip: Float = 0, limit: Float = 25): KnowledgeBases!
+  knowledgeBase(id: String!): KnowledgeBase!
+  searchKnowledgeBase(query: String!, skip: Float = 0, limit: Float = 25): KnowledgeBases!
+  folders(parentFolderId: String = null, skip: Float = 0, limit: Float = 25): Folders!
+  folder(id: String!): Folder!
+  sharedFolders(skip: Float = 0, limit: Float = 25): Folders!
+  files(folderId: String = null, listByFolder: Boolean = true, skip: Float = 0, limit: Float = 25): Files!
+  recentFiles(skip: Float = 0, limit: Float = 25): Files!
+  file(id: String!): File!
+  sharedFiles(skip: Float = 0, limit: Float = 25): Files!
+  NewStudentMaterialCount: MaterialCount!
+  testsByCourse(courseId: String!): [TestWithStudents!]!
+  testByTeacher(skip: Float = 0, limit: Float = 25): Tests!
+  schedulesByDays(day: String): [scheduleByDay!]!
+  studentSchedules: [Schedule!]!
+  findAllUserNotification: [Notification!]!
+  findNotificationById(id: String!): Notification!
+  findUserNotification(userId: String!): [Notification!]!
+  interestsAndSkills: [InterestOrSkill!]!
+}
+
+input SearchInput {
+  query: String!
+  category: String = "all"
+  dateRange: String
+}
+
+input EnableTfaInput {
+  tfaCode: String!
+}
+
+type Mutation {
+  createCsa(createAdminInput: CreateAdminInput!): CreateResponse!
+  createCcsa(createCcsaInput: CreateAdminInput!): CreateResponse!
+  createPda(createPdaInput: CreatePdaInput!): CreateResponse!
+  createDa(createDaInput: CreatePdaInput!): CreateResponse!
+  createPsa(createPsaInput: CreateUserInput!): CreateResponse!
+  createSa(createSaInput: CreateUserInput!): CreateResponse!
+  createTeacher(createTeacherInput: CreateUserInput!): CreateResponse!
+  createStudent(createStudentInput: CreateUserInput!): CreateResponse!
+  createParent(createParentInput: CreateUserInput!): CreateResponse!
+  removeUser(id: String!): User!
+  updateAnyUser(updateUser: UpdateUserInput!): User!
+  updateUserRole(id: String!, newRole: String!): User!
+  createDistrict(createDistrictInput: CreateDistrictInput!): District!
+  updateDistrict(updateDistrictInput: UpdateDistrictInput!): District!
+  removeDistrict(id: String!): District!
+  createSchool(createSchoolInput: CreateSchoolInput!): School!
+  updateSchool(updateSchoolInput: UpdateSchoolInput!): School!
+  removeSchool(id: String!): School!
+  createCourse(createCourseInput: CreateCourseInput!): Course!
+  createCourseWithFile(createCourseInput: CreateCourseInput!, file: Upload!): Course!
+  updateCourse(updateCourseInput: UpdateCourseInput!): Course!
+  updateCourseWithFile(updateCourseInput: UpdateCourseInput!, file: Upload!): Course!
+  deleteCourse(id: String!): Course!
+  enrollStudent(courseCode: String!, studentId: String!): StudentToCourse!
+  removeStudentFromCourse(courseCode: String!, studentId: String!): StudentToCourse!
+  createTimetable(createTimetableInput: CreateTimetableInput!): Timetable!
+  updateTimetable(updateTimetableInput: UpdateTimetableInput!): Timetable!
+  removeTimetable(id: Int!): Timetable!
+  createLiveChat(createLiveChatInput: CreateLiveChatInput!): LiveChat!
+  updateLiveChat(updateLiveChatInput: UpdateLiveChatInput!): LiveChat!
+  removeLiveChat(id: Int!): LiveChat!
+  createError(createErrorInput: CreateErrorInput!): Error!
+  updateError(updateErrorInput: UpdateErrorInput!): Error!
+  removeError(id: Int!): Error!
+  createAttendance(createAttendanceInput: CreateAttendanceInput!): Attendance!
+  createManyAttendances(createManyAttendancesInput: CreateManyAttendancesInput!): [Attendance!]!
+  updateAttendance(updateAttendanceInput: UpdateAttendanceInput!): Attendance!
+  login(loginData: LoginAuthInput!): LoginResponse!
+  refreshToken(refreshTokenInput: RefreshTokenInput!): LoginResponse!
+  forgotPassword(forgotPasswordInput: ForgotPasswordInput!): LogoutResponse!
+  resetPassword(resetPasswordInput: ResetPasswordInput!): LogoutResponse!
+  logout: LogoutResponse!
+  createReport(createReportInput: CreateReportInput!): Report!
+  setAdminRead(id: String!): Boolean!
+  setAdminUnread(id: String!): Boolean!
+  createAnnouncement(createAnnouncementInput: CreateAnnouncementInput!): Announcement!
+  createSuggestion(createSuggestionInput: CreateSuggestionInput!): Suggestion!
+  createQuickInfo(createQuickInfoInput: CreateQuickInfoInput!): QuickInfo!
+  updateQuickInfo(updateQuickInfoInput: UpdateQuickInfoInput!): QuickInfo!
+  removeQuickInfo(id: String!): QuickInfo!
+  createCalendarEvent(createCalendarEventInput: CreateCalendarEventInput!): CalendarEvent!
+  updateCalendarEvent(updateCalendarEventInput: UpdateCalendarEventInput!): CalendarEvent!
+  removeCalendarEvent(id: String!): CalendarEvent!
+  createGroup(createGroupInput: CreateGroupInput!): Group!
+  transferGroupAdmin(transferGroupAdminInput: TransferGroupAdminInput!): Group!
+  leaveGroup(leaveGroupInput: LeaveGroupInput!): Group!
+  addGroupModerator(addGroupModeratorInput: AddGroupModeratorInput!): Group!
+  updateGroup(updateGroupInput: UpdateMessageGroupInput!): UserMessageGroup!
+  addGroupMember(addGroupMemberInput: AddGroupMemberInput!): Group!
+  sendMessage(createMessageInput: CreateMessageInput!): Message!
+  sendMessageWithFile(createMessageInput: CreateMessageInput!, file: Upload!): Message!
+  updateMessage(updateMessageInput: UpdateMessageInput!): Message!
+  updateMessageWithFile(updateMessageInput: UpdateMessageInput!, file: Upload!): Message!
+  removeMessage(id: String!): Message!
+  createAssignment(createAssignmentInput: CreateAssignmentInput!): Assignment!
+  updateAssignment(updateAssignmentInput: UpdateAssignmentInput!): Assignment!
+  removeAssignment(id: String!): Assignment!
+  createSubmission(createSubmissionInput: CreateSubmissionInput!): Submission!
+  updateSubmission(updateSubmissionInput: UpdateSubmissionInput!): Submission!
+  addSubmissionComment(id: String!, comment: String!): Submission!
+  removeSubmission(id: String!): Submission!
+  createBugReport(createBugReportInput: CreateBugReportInput!): BugReport!
+  updateBugReport(updateBugReportInput: UpdateBugReportInput!): BugReport!
+  removeBugReport(id: String!): BugReport!
+
+  """Create a new group message"""
+  sendMessageInGroup(createGroupMessageInput: CreateGroupMessageInput!): GroupMessage!
+
+  """Create a new group message with a file"""
+  sendMessageInGroupWithFile(createGroupMessageInput: CreateGroupMessageInput!, file: Upload!): GroupMessage!
+
+  """delete message from group"""
+  deleteMessageInGroup(id: String!): GroupMessage!
+
+  """update group"""
+  updateMessageInGroup(updateGroupMessageInput: UpdateGroupMessageInput!): GroupMessage!
+
+  """update group message with file"""
+  updateMessageInGroupWithFile(updateGroupMessageInput: UpdateGroupMessageInput!, file: Upload!): GroupMessage!
+  removeGroupMessage(id: String!): GroupMessage!
+  updateGroupMessage(updateGroupMessageInput: UpdateGroupMessageInput!): GroupMessage!
+  createMessageGroup(createGroupMessageInput: CreateMessageGroupInput!): UserMessageGroup!
+  createMessageGroupWithFile(createGroupMessageInput: CreateMessageGroupInput!, file: Upload!): UserMessageGroup!
+  addUserToGroup(groupId: String!, userId: String!): UserMessageGroup!
+  removeUserFromGroup(groupId: String!, userId: String!): UserMessageGroup!
+  deleteGroup(groupId: String!): UserMessageGroup!
+  updateGroupWithFile(updateGroupInput: UpdateMessageGroupInput!, file: Upload!): UserMessageGroup!
+  createKnowledgeBase(createKnowledgeBaseInput: CreateKnowledgeBaseInput!): KnowledgeBase!
+  updateKnowledgeBase(updateKnowledgeBaseInput: UpdateKnowledgeBaseInput!): KnowledgeBase!
+  removeKnowledgeBase(id: String!): KnowledgeBase!
+  contactSupport(createSupportInput: CreateSupportInput!): Support!
+  createFolder(createFolderInput: CreateFolderInput!): Folder!
+  updateFolder(updateFolderInput: UpdateFolderInput!): Folder!
+  removeFolder(id: String!): Folder!
+  shareFolder(sharedWithId: String!, id: String!): Boolean!
+  createFile(createFileInput: CreateFileInput!, file: Upload!): File!
+  updateFile(updateFileInput: UpdateFileInput!): File!
+  removeFile(id: String!): File!
+  shareFile(sharedWithId: String!, id: String!): Boolean!
+  createTest(createTestInput: CreateTestInput!): Test!
+  createSchedule(createScheduleInput: CreateScheduleInput!): Schedule!
+  updateSchedule(updateScheduleInput: UpdateScheduleInput!): Schedule!
+  missingAssignmentNotification(courseId: String!): [Notification!]!
+  createNotification(createNotificationInput: CreateNotificationInput!): Notification!
+  assignmentCountNotification(courseId: String!): Notification!
+  sendDailyEmail(createDailyEmailNotificationInput: CreateDailyEmailNotificationInput!): CreateResponse!
+  updateNotification(updateNotificationInput: UpdateNotificationInput!): Notification!
+  assignmentDue(createNotificationInput: CreateNotificationInput!): Notification!
+  createInterestOrSkill(createInterestOrSkillInput: CreateInterestOrSkillInput!): InterestOrSkill!
+}
+
+input CreateAdminInput {
+  email: String!
+}
+
+input CreatePdaInput {
+  email: String!
+  districtId: String!
+}
+
+input CreateUserInput {
+  email: String!
+  districtId: String!
+  schoolId: String!
+}
+
+input UpdateUserInput {
+  id: String!
+  firstName: String
+  lastName: String
+  password: String
+  phone: String
+  birthday: DateTime
+  pronouns: String
+  bio: String
+  interests: String
+  profilePicture: Upload
+  bannerPicture: Upload
+  removeBanner: Boolean
+  removeProfile: Boolean
+  profileAvailability: String!
+  role: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input CreateDistrictInput {
+  name: String!
+  address: CreateAddressInput!
+  daLicenses: Float
+  saLicenses: Float
+  schoolLicenses: Float
+  teacherLicenses: Float
+  studentLicenses: Float
+  parentLicenses: Float
+  psaLicences: Float
+  about: String
+  banner: Upload
+  logo: Upload
+}
+
+input CreateAddressInput {
+  country: String!
+  state: String!
+  city: String!
+  street: String!
+  number: Float!
+  zipCode: String!
+}
+
+input UpdateDistrictInput {
+  name: String
+  address: CreateAddressInput
+  daLicenses: Float
+  saLicenses: Float
+  schoolLicenses: Float
+  teacherLicenses: Float
+  studentLicenses: Float
+  parentLicenses: Float
+  psaLicences: Float
+  about: String
+  banner: Upload
+  logo: Upload
+  id: String!
+  removeBanner: Boolean
+  removeLogo: Boolean
+}
+
+input CreateSchoolInput {
+  name: String!
+  districtId: String!
+  address: CreateAddressInput!
+  banner: Upload
+}
+
+input UpdateSchoolInput {
+  name: String
+  districtId: String
+  address: CreateAddressInput
+  banner: Upload
+  id: String!
+}
+
+input CreateCourseInput {
+  name: String!
+  picture: String
+  description: String!
+  teacherId: String!
+  schoolId: String!
+}
+
+input UpdateCourseInput {
+  id: String!
+  name: String
+  picture: String
+  description: String!
+}
+
+input CreateTimetableInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateTimetableInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateLiveChatInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateLiveChatInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateErrorInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateErrorInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateAttendanceInput {
+  courseId: String!
+  userId: String!
+  status: String!
+  day: DateTime!
+}
+
+input CreateManyAttendancesInput {
+  courseId: String!
+  userIds: [String!]!
+  day: DateTime!
+}
+
+input UpdateAttendanceInput {
+  courseId: String
+  userId: String
+  status: String
+  day: DateTime
+  id: String!
+}
+
+input LoginAuthInput {
+  email: String!
+  password: String!
+  tfactorAuthCode: String
+}
+
+input RefreshTokenInput {
+  refreshToken: String!
+}
+
+input ForgotPasswordInput {
+  email: String!
+}
+
+input ResetPasswordInput {
+  newPassword: String!
+}
+
+input CreateReportInput {
+  title: String!
+  description: String!
+  read: Boolean!
+  resolved: Boolean!
+  resolution: String!
+}
+
+input CreateAnnouncementInput {
+  title: String!
+  description: String!
+  courseId: String
+  userId: String
+}
+
+input CreateSuggestionInput {
+  title: String!
+  description: String!
+  read: Boolean!
+  starred: Boolean!
+}
+
+input CreateQuickInfoInput {
+  title: String
+  description: String
+}
+
+input UpdateQuickInfoInput {
+  title: String
+  description: String
+  id: String!
+}
+
+input CreateCalendarEventInput {
+  title: String!
+  description: String
+  startDate: DateTime!
+  endDate: DateTime!
+  recurring: String
+  recurringDate: DateTime
+}
+
+input UpdateCalendarEventInput {
+  title: String
+  description: String
+  startDate: DateTime
+  endDate: DateTime
+  recurring: String
+  recurringDate: DateTime
+  id: String!
+}
+
+input CreateGroupInput {
+  name: String!
+  description: String!
+  photo: String!
+  confidential: Boolean!
+}
+
+input TransferGroupAdminInput {
+  id: String!
+  userId: String!
+}
+
+input LeaveGroupInput {
+  id: String!
+}
+
+input AddGroupModeratorInput {
+  id: String!
+  userId: String!
+}
+
+input UpdateMessageGroupInput {
+  name: String
+  filePath: String
+  id: String!
+}
+
+input AddGroupMemberInput {
+  id: String!
+  userId: String!
+}
+
+input CreateMessageInput {
+  text: String!
+  filePath: String
+  toId: String!
+}
+
+input UpdateMessageInput {
+  text: String
+  filePath: String
+  toId: String
+  id: String!
+}
+
+input CreateAssignmentInput {
+  courseId: String!
+  title: String!
+  description: String!
+  due: DateTime!
+  marks: Float = 100
+  visible: Boolean!
+  folderPath: String!
+}
+
+input UpdateAssignmentInput {
+  courseId: String
+  title: String
+  description: String
+  due: DateTime
+  marks: Float = 100
+  visible: Boolean
+  folderPath: String
+  id: String!
+}
+
+input CreateSubmissionInput {
+  assignmentId: String!
+  attachments: [Upload!]
+  note: String
+  comment: String
+  grade: Float
+  submitterId: String!
+}
+
+input UpdateSubmissionInput {
+  assignmentId: String
+  attachments: [Upload!]
+  note: String
+  comment: String
+  grade: Float
+  submitterId: String
+  id: String!
+  attachmentsToDelete: [SubmissionAttachmentInput!]
+}
+
+input SubmissionAttachmentInput {
+  id: String!
+}
+
+input CreateBugReportInput {
+  title: String!
+  summary: String!
+  issue: String!
+  reproduce: String!
+  consequence: String!
+  phone: String!
+  email: String!
+}
+
+input UpdateBugReportInput {
+  title: String
+  summary: String
+  issue: String
+  reproduce: String
+  consequence: String
+  phone: String
+  email: String
+  id: String!
+}
+
+input CreateGroupMessageInput {
+  text: String!
+  filePath: String
+  messageGroupId: String!
+}
+
+input UpdateGroupMessageInput {
+  text: String
+  filePath: String
+  messageGroupId: String
+  id: String!
+}
+
+input CreateMessageGroupInput {
+  name: String!
+  filePath: String
+}
+
+input CreateKnowledgeBaseInput {
+  type: String!
+  title: String
+  videoUrl: String
+  articlePath: String
+}
+
+input UpdateKnowledgeBaseInput {
+  type: String
+  title: String
+  videoUrl: String
+  articlePath: String
+  id: String!
+  isPublic: Boolean
+}
+
+input CreateSupportInput {
+  name: String!
+  title: String!
+  email: String!
+  description: String!
+}
+
+input CreateFolderInput {
+  name: String!
+  color: String
+  description: String
+  parentFolderId: String
+  isHidden: Boolean
+}
+
+input UpdateFolderInput {
+  name: String
+  color: String
+  description: String
+  parentFolderId: String
+  isHidden: Boolean
+  id: String!
+}
+
+input CreateFileInput {
+  name: String
+  fileType: String = "user_drive_file"
+  folderId: String
+}
+
+input UpdateFileInput {
+  name: String
+  fileType: String = "user_drive_file"
+  folderId: String
+  id: String!
+}
+
+input CreateTestInput {
+  title: String!
+  courseId: String!
+  gradeId: String!
+  description: String!
+  due: DateTime!
+  open: Boolean!
+  allowReviewPreviousTest: Boolean!
+  limit: Float!
+  questions: [CreateTestQuestionInput!]!
+}
+
+input CreateTestQuestionInput {
+  question: String!
+  points: Float!
+}
+
+input CreateScheduleInput {
+  title: String!
+  subtitle: String
+  color: String
+  description: String!
+  day: [String!]!
+  startingTime: DateTime!
+  endingTime: DateTime!
+}
+
+input UpdateScheduleInput {
+  title: String
+  subtitle: String
+  color: String
+  description: String
+  day: [String!]
+  startingTime: DateTime
+  endingTime: DateTime
+  id: String!
+}
+
+input CreateNotificationInput {
+  userId: String
+  groupId: Int
+  targetedUser: String!
+  title: String!
+  description: String!
+  courseId: String
+  announcementId: String
+  NotificationType: String!
+  link: String
+  image: String
+}
+
+input CreateDailyEmailNotificationInput {
+  updateDetails: String!
+}
+
+input UpdateNotificationInput {
+  userId: String
+  groupId: Int
+  targetedUser: String
+  title: String
+  description: String
+  courseId: String
+  announcementId: String
+  NotificationType: String
+  link: String
+  image: String
+  id: Int!
+}
+
+input CreateInterestOrSkillInput {
+  title: String!
+}
+
+type Subscription {
+  announcementCreated: Announcement!
+  messageAdded: Message!
+  messageRemoved: Message!
+  messageUpdated: Message!
+  groupMessageAdded: GroupMessage!
+  groupMessageRemoved: GroupMessage!
+  groupMessageUpdated: GroupMessage!
+
+  """Notification when a user is missing an assignment"""
+  missingAssignmentNotificationAdded: [Notification!]!
+  notificationAdded: Notification!
+
+  """Total assingment for a certain teacher"""
+  assignmentCountNotificationAdded: Notification!
+  assignmentDueNotification: Notification!
+}

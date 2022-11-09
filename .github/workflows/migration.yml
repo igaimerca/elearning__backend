@@ -1,0 +1,35 @@
+name: Migration
+
+on:
+  push:
+    branches:
+      - staging
+      
+jobs:
+  merge_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout staging branch
+        uses: actions/checkout@v2
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      
+      - name: Install dependencies
+        run: npm install 
+        
+      - name: run migrations 
+        run: npm run migrate:deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      
+      - name: run Generate
+        run: npx prisma generate:prod 
+      
+      - name: run Seed
+        run: npm run seed:prod 
+        
+      - name: build application
+        run: npm run build
